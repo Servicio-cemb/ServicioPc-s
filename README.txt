@@ -1,28 +1,34 @@
-WEB DE SERVICIOS INFORMÁTICOS — CARLOS MORENO
+# Servicio técnico y mantenimiento de PC
 
-ARCHIVOS
-- index.html: estructura y contenido.
-- styles.css: diseño responsive y estética gaming profesional.
-- script.js: menú, animaciones y formulario de contacto.
+Página web personal destinada a ofrecer servicios de soporte técnico, mantenimiento, reparación y optimización de ordenadores.
 
-ANTES DE PUBLICAR
-1. Abre script.js.
-2. Localiza la constante CONTACT al principio.
-3. Añade:
-   phone: tu número con prefijo internacional, sin espacios ni símbolos.
-   email: tu correo electrónico.
-4. Guarda los cambios.
-5. Abre index.html en el navegador para comprobar la web.
+El servicio está orientado tanto a equipos de uso doméstico y profesional como a ordenadores gaming.
 
-EJEMPLO
-const CONTACT = {
-  phone: "625993218",
-  email: "carlose.moreno594@gmail.com"
-};
+## Servicios
 
-PUBLICACIÓN
-Puedes subir los tres archivos a GitHub Pages, Netlify, Cloudflare Pages o cualquier hosting.
-Mantén los archivos en la misma carpeta.
+* Diagnóstico de problemas de hardware y software.
+* Limpieza y mantenimiento de equipos.
+* Optimización de Windows y rendimiento.
+* Optimización de equipos gaming.
+* Instalación y actualización de componentes.
+* Ampliaciones de RAM y almacenamiento SSD.
+* Revisión de temperaturas y refrigeración.
+* Configuración básica de redes.
+* Soporte remoto para determinadas incidencias.
 
-NOTA
-El formulario no almacena datos. Prepara el mensaje y abre WhatsApp o el programa de correo del visitante.
+## Tecnologías utilizadas
+
+* HTML5
+* CSS3
+* JavaScript
+* GitHub Pages
+* Formspree para el formulario de contacto
+
+## Contacto
+
+La propia página dispone de un formulario para solicitar información sobre los servicios disponibles, además de contacto mediante WhatsApp.
+
+## Autor
+
+Carlos Moreno
+Madrid, España
