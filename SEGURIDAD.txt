@@ -1,0 +1,41 @@
+SEGURIDAD DE LA WEB
+
+Esta web es estática. No contiene backend, base de datos ni código con acceso al ordenador del propietario.
+
+MEDIDAS APLICADAS
+- Content Security Policy (CSP) restrictiva.
+- JavaScript y CSS únicamente locales.
+- Conexiones de red limitadas a Formspree.
+- object/frame bloqueados por CSP.
+- Protección básica contra URLs inseguras mediante upgrade-insecure-requests.
+- Referrer Policy restrictiva.
+- Límites de longitud en los campos del formulario.
+- Campo honeypot _gotcha para reducir bots/spam.
+- No se usa innerHTML con datos aportados por visitantes.
+- No se almacenan contraseñas, archivos ni datos bancarios.
+- .gitignore preparado para evitar publicar .env, claves y certificados por error.
+
+MUY IMPORTANTE EN GITHUB
+1. Settings > Pages > activa "Enforce HTTPS".
+2. Activa autenticación de dos factores o passkey en tu cuenta de GitHub.
+3. No subas al repositorio:
+   - contraseñas
+   - claves API privadas
+   - tokens
+   - archivos .env
+   - certificados digitales
+   - copias de DNI/TIE
+   - documentos personales
+4. El endpoint público de Formspree NO es una contraseña. No pongas claves secretas en script.js.
+5. El número usado para WhatsApp será visible en el código fuente de la web. Usa solo un número que aceptes hacer público.
+6. Mantén la protección anti-spam de Formspree activada.
+
+LIMITACIÓN DE GITHUB PAGES
+GitHub Pages no permite que esta web estática controle todos los encabezados HTTP de seguridad.
+La CSP incluida funciona desde una etiqueta meta, pero protecciones como frame-ancestors/X-Frame-Options
+requieren encabezados HTTP enviados por el hosting. Si se desea ese nivel adicional, conviene desplegar
+la misma web en un hosting estático que permita configurar headers (por ejemplo Cloudflare Pages).
+
+NOTA
+Ninguna web pública puede prometer riesgo cero. La seguridad también depende de tu cuenta de GitHub,
+tu correo, Formspree y de no publicar secretos en el repositorio.
