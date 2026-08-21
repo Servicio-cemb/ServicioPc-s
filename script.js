@@ -1,7 +1,4 @@
-const CONTACT = {
-  phone: "625993218",
-  email: "carlose.moreno594@gmail.com"
-};
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mdenjooa";
 
 const menuButton = document.querySelector(".menu-toggle");
 const navLinks = document.querySelector(".nav-links");
@@ -49,16 +46,43 @@ const statusMessage = document.getElementById("form-status");
 function getFormData() {
   return {
     name: document.getElementById("name").value.trim(),
+    email: document.getElementById("email").value.trim(),
     service: document.getElementById("service").value,
-    message: document.getElementById("message").value.trim()
+    message: document.getElementById("message").value.trim(),
+    gotcha: document.getElementById("_gotcha").value.trim()
   };
 }
 
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 function validateForm(data) {
-  if (!data.name || !data.service || !data.message) {
+  if (!data.name || !data.email || !data.service || !data.message) {
     statusMessage.textContent = "Completa todos los campos antes de enviar.";
     return false;
   }
+
+  if (data.gotcha) {
+    statusMessage.textContent = "No se pudo procesar la solicitud.";
+    return false;
+  }
+
+  if (data.name.length < 2 || data.name.length > 80) {
+    statusMessage.textContent = "Revisa el nombre introducido.";
+    return false;
+  }
+
+  if (!isValidEmail(data.email) || data.email.length > 254) {
+    statusMessage.textContent = "Introduce un correo electrónico válido.";
+    return false;
+  }
+
+  if (data.message.length < 10 || data.message.length > 2000) {
+    statusMessage.textContent = "La consulta debe tener entre 10 y 2000 caracteres.";
+    return false;
+  }
+
   statusMessage.textContent = "";
   return true;
 }
@@ -68,6 +92,7 @@ function buildMessage(data) {
     "Hola Carlos,",
     "",
     `Mi nombre es ${data.name}.`,
+    `Mi correo es ${data.email}.`,
     `Necesito información sobre: ${data.service}.`,
     "",
     "Problema o consulta:",
@@ -75,6 +100,7 @@ function buildMessage(data) {
   ].join("\n");
 }
 
+// WhatsApp: se mantiene como antes.
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const data = getFormData();
@@ -82,7 +108,8 @@ form.addEventListener("submit", (event) => {
   if (!validateForm(data)) return;
 
   if (!CONTACT.phone) {
-    statusMessage.textContent = "Añade tu teléfono de WhatsApp en la constante CONTACT del archivo script.js.";
+    statusMessage.textContent =
+      "Configura tu número de WhatsApp en CONTACT.phone dentro de script.js.";
     return;
   }
 
@@ -90,26 +117,54 @@ form.addEventListener("submit", (event) => {
   window.open(url, "_blank", "noopener,noreferrer");
 });
 
-emailButton.addEventListener("click", () => {
+// Correo: envío directo desde la web mediante Formspree.
+// No depende de Gmail, Outlook ni de una app de correo instalada.
+emailButton.addEventListener("click", async () => {
   const data = getFormData();
 
   if (!validateForm(data)) return;
 
-  if (!CONTACT.email) {
-    statusMessage.textContent = "Añade tu correo electrónico en la constante CONTACT del archivo script.js.";
+  if (!/^https:\/\/formspree\.io\/f\/[A-Za-z0-9_-]+$/.test(FORMSPREE_ENDPOINT)) {
+    statusMessage.textContent =
+      "El formulario de correo todavía no está configurado correctamente.";
     return;
   }
 
-  const subject = encodeURIComponent(`Consulta: ${data.service}`);
-  const body = encodeURIComponent(buildMessage(data));
-  const recipient = encodeURIComponent(CONTACT.email);
+  const originalText = emailButton.textContent;
+  emailButton.disabled = true;
+  emailButton.textContent = "Enviando...";
+  statusMessage.textContent = "Enviando la consulta...";
 
-  // Abrimos directamente el redactor web de Gmail. Esto evita depender de
-  // que el visitante tenga una aplicación de correo configurada en Windows.
-  const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
-  const emailWindow = window.open(gmailUrl, "_blank", "noopener,noreferrer");
+  try {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+        service: data.service,
+        message: data.message,
+        _gotcha: data.gotcha,
+        subject: `Consulta web: ${data.service}`
+      })
+    });
 
-  if (!emailWindow) {
-    statusMessage.textContent = "El navegador ha bloqueado la ventana. Permite las ventanas emergentes e inténtalo de nuevo.";
+    if (!response.ok) {
+      throw new Error("No se pudo enviar el formulario.");
+    }
+
+    statusMessage.textContent =
+      "Consulta enviada correctamente. Te responderé al correo indicado.";
+    form.reset();
+  } catch (error) {
+    console.error(error);
+    statusMessage.textContent =
+      "No se pudo enviar el correo. Puedes intentarlo de nuevo o usar WhatsApp.";
+  } finally {
+    emailButton.disabled = false;
+    emailButton.textContent = originalText;
   }
 });
