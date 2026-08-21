@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Servicios de mantenimiento, reparación, optimización y configuración de ordenadores y equipos gaming en Madrid.">
   <meta name="theme-color" content="#080b14">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://formspree.io; object-src 'none'; base-uri 'none'; frame-src 'none'; form-action 'self'; manifest-src 'self'; worker-src 'none'; upgrade-insecure-requests">
   <title>Carlos Moreno | Soporte técnico y optimización gaming</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -73,17 +76,17 @@
                 <div class="metric">
                   <small>CPU</small>
                   <strong>Estable</strong>
-                  <div class="bar"><span style="width: 68%"></span></div>
+                  <div class="bar"><span class="bar-fill bar-fill-68"></span></div>
                 </div>
                 <div class="metric">
                   <small>GPU</small>
                   <strong>Gaming</strong>
-                  <div class="bar"><span style="width: 82%"></span></div>
+                  <div class="bar"><span class="bar-fill bar-fill-82"></span></div>
                 </div>
                 <div class="metric">
                   <small>Temperatura</small>
                   <strong>Controlada</strong>
-                  <div class="bar"><span style="width: 56%"></span></div>
+                  <div class="bar"><span class="bar-fill bar-fill-56"></span></div>
                 </div>
               </div>
               <div class="waveform" aria-hidden="true">
@@ -110,6 +113,14 @@
   </header>
 
   <main>
+    <section class="trust-strip">
+      <div class="container trust-grid">
+        <div><strong>ASIR</strong><span>Formación en sistemas y redes</span></div>
+        <div><strong>IFCT0210</strong><span>Operación de sistemas informáticos</span></div>
+        <div><strong>PC & Gaming</strong><span>Rendimiento, estabilidad y temperaturas</span></div>
+        <div><strong>Atención clara</strong><span>Sin tecnicismos innecesarios</span></div>
+      </div>
+    </section>
 
     <section class="section container" id="servicios">
       <div class="section-heading reveal">
@@ -338,12 +349,22 @@
             Indica los síntomas, desde cuándo sucede, qué equipo tienes y si aparece algún mensaje de error.
             Cuanta más información aportes, mejor podré orientarte.
           </p>
+
+          <div class="contact-notice">
+            <strong>Contacto directo:</strong>
+            <span>Puedes enviar la consulta por WhatsApp o directamente por correo desde este formulario.</span>
+          </div>
         </div>
 
-        <form class="contact-form reveal" id="contact-form" novalidate>
+        <form class="contact-form reveal" id="contact-form" method="post" action="#" novalidate>
           <label>
             Nombre
-            <input type="text" id="name" name="name" autocomplete="name" placeholder="Tu nombre" required>
+            <input type="text" id="name" name="name" autocomplete="name" placeholder="Tu nombre" minlength="2" maxlength="80" required>
+          </label>
+
+          <label>
+            Tu correo electrónico
+            <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="nombre@correo.com" maxlength="254" required>
           </label>
 
           <label>
@@ -361,8 +382,13 @@
 
           <label>
             Describe el problema
-            <textarea id="message" name="message" rows="6" placeholder="Ej.: el PC se apaga al jugar, hace mucho ruido y la CPU alcanza temperaturas altas..." required></textarea>
+            <textarea id="message" name="message" rows="6" minlength="10" maxlength="2000" placeholder="Ej.: el PC se apaga al jugar, hace mucho ruido y la CPU alcanza temperaturas altas..." required></textarea>
           </label>
+
+          <div class="hp-field" aria-hidden="true">
+            <label for="_gotcha">No rellenar este campo</label>
+            <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+          </div>
 
           <div class="form-actions">
             <button class="button button-primary" type="submit">Enviar por WhatsApp</button>
@@ -393,3 +419,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
